@@ -36,7 +36,6 @@ public class TelaInicial extends javax.swing.JFrame {
         btnProdutos.setText("PRODUTOS");
 
         btnVendas.setFont(new java.awt.Font("Lucida Sans", 1, 18)); // NOI18N
-        btnVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/newtonpaiva/ui/icons/iconfinder_24-Cash_Register_2924837.png"))); // NOI18N
         btnVendas.setText("VENDAS");
         btnVendas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnVendas.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
@@ -50,27 +49,27 @@ public class TelaInicial extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(404, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(204, 204, 204)
                 .addComponent(btnProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+                .addContainerGap(64, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(22, 22, 22)
                     .addComponent(btnVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(412, Short.MAX_VALUE)))
+                    .addContainerGap(233, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(73, 73, 73)
+                .addGap(72, 72, 72)
                 .addComponent(btnProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(74, 74, 74)
                     .addComponent(btnVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(121, Short.MAX_VALUE)))
+                    .addContainerGap(74, Short.MAX_VALUE)))
         );
 
         pack();
