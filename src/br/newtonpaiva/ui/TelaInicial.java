@@ -33,12 +33,16 @@ public class TelaInicial extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnProdutos.setFont(new java.awt.Font("Lucida Sans", 1, 18)); // NOI18N
+        btnProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/newtonpaiva/ui/icones/Cash_Register.png"))); // NOI18N
         btnProdutos.setText("PRODUTOS");
+        btnProdutos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnProdutos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         btnVendas.setFont(new java.awt.Font("Lucida Sans", 1, 18)); // NOI18N
+        btnVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/newtonpaiva/ui/icones/Cash_Register.png"))); // NOI18N
         btnVendas.setText("VENDAS");
         btnVendas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnVendas.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        btnVendas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnVendas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVendasActionPerformed(evt);
@@ -79,6 +83,10 @@ public class TelaInicial extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         System.out.println("Clique no botão vendas");
+        
+        
+        TelaVendas t = new TelaVendas(this, true);
+        t.setVisible(true);
     }//GEN-LAST:event_btnVendasActionPerformed
 
     /**
