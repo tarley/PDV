@@ -5,6 +5,9 @@
  */
 package br.newtonpaiva.ui;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Tarley
@@ -53,6 +56,12 @@ public class TelaVendas extends javax.swing.JDialog {
 
         lblCodigo.setText("CÓDIGO:");
 
+        txtCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCodigoFocusLost(evt);
+            }
+        });
+
         btnAdicionarProduto.setText("ADICIONAR PRODUTO");
         btnAdicionarProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,17 +71,17 @@ public class TelaVendas extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1),  new Integer(11), "Camisa",  new Double(7.88)},
-                { new Integer(2),  new Integer(7), "Sapato",  new Double(8.66)},
-                { new Integer(3),  new Integer(4), "Bone",  new Double(8.77)},
-                { new Integer(4),  new Integer(5), "Outros", null}
+                {null, null, "Camisa", null},
+                {null, null, "Sapato", null},
+                {null, null, "Bone", null},
+                {null, null, "Outros", null}
             },
             new String [] {
                 "#", "Qtd.", "Produto", "Preço"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
@@ -93,6 +102,11 @@ public class TelaVendas extends javax.swing.JDialog {
         lblQuantidade.setText("QUANTIDADE:");
 
         txtQuantidade.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        txtQuantidade.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtQuantidadeFocusLost(evt);
+            }
+        });
 
         lblTipo.setText("TIPO:");
 
@@ -213,9 +227,61 @@ public class TelaVendas extends javax.swing.JDialog {
 
     private void btnAdicionarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarProdutoActionPerformed
         // TODO add your handling code here:
-      
+        DefaultTableModel model = 
+                (DefaultTableModel) jTable1.getModel();
+        
+        String[] row = new String[4];
+        row[0] = txtCodigo.getText();
+        row[1] = txtQuantidade.getText();
+        row[2] = txtProduto.getText();
+        row[3] = txtValorUnitario.getText();
+        
+        model.addRow(row);
         
     }//GEN-LAST:event_btnAdicionarProdutoActionPerformed
+
+    private void txtCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoFocusLost
+        // TODO add your handling code here:
+        String codigo = txtCodigo.getText();
+        
+        if(codigo.equals("1000")) {
+            txtProduto.setText("Smatphone Xiaomi Mi 8");
+            txtValorUnitario.setText("1.029,00");
+            txtQuantidade.setText("1");
+            txtValorTotal.setText(txtValorUnitario.getText());
+        } else if(codigo.equals("2000")) {
+            txtProduto.setText("Capa Antishock");
+            txtValorUnitario.setText("100,00");
+            txtQuantidade.setText("1");
+            txtValorTotal.setText(txtValorUnitario.getText());
+        } else if(codigo.equals("3000")) {
+            txtProduto.setText("Pelicula Gel");
+            txtValorUnitario.setText("53,75");
+            txtQuantidade.setText("1");
+            txtValorTotal.setText(txtValorUnitario.getText());
+        } else {
+            JOptionPane.showMessageDialog(
+                    this, "Produto não encontrado!");
+        }
+    }//GEN-LAST:event_txtCodigoFocusLost
+
+    private void txtQuantidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantidadeFocusLost
+        // TODO add your handling code here:
+        String quantidadeStr = txtQuantidade.getText();
+        int quantidade = Integer.parseInt(quantidadeStr);
+        
+        // 1.028,57
+        // 1028.57
+        String valorStr = txtValorUnitario
+                            .getText()
+                            .replace(".", "")
+                            .replace(",", ".");
+        double valor = Double.parseDouble(valorStr);
+        
+        double total = quantidade * valor;
+        txtValorTotal.setText(String.format("%.2f", total));
+        
+    }//GEN-LAST:event_txtQuantidadeFocusLost
 
     /**
      * @param args the command line arguments
