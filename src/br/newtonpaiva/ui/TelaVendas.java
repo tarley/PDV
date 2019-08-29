@@ -8,6 +8,7 @@ package br.newtonpaiva.ui;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+
 /**
  *
  * @author Tarley
@@ -71,10 +72,7 @@ public class TelaVendas extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, "Camisa", null},
-                {null, null, "Sapato", null},
-                {null, null, "Bone", null},
-                {null, null, "Outros", null}
+
             },
             new String [] {
                 "#", "Qtd.", "Produto", "Preço"
@@ -125,6 +123,11 @@ public class TelaVendas extends javax.swing.JDialog {
         txtTotalVenda.setEnabled(false);
 
         btnRemover.setText("REMOVER PRODUTO");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
 
         btnLimpar.setText("LIMPAR");
 
@@ -282,6 +285,17 @@ public class TelaVendas extends javax.swing.JDialog {
         txtValorTotal.setText(String.format("%.2f", total));
         
     }//GEN-LAST:event_txtQuantidadeFocusLost
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        // TODO add your handling code here:
+        int row[] = jTable1.getSelectedRows();
+        
+        for(int i = row.length - 1; i >= 0; i --) {
+            DefaultTableModel model = 
+                (DefaultTableModel) jTable1.getModel();
+            model.removeRow(row[i]);
+        }
+    }//GEN-LAST:event_btnRemoverActionPerformed
 
     /**
      * @param args the command line arguments
