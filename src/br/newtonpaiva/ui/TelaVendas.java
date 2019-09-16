@@ -5,6 +5,13 @@
  */
 package br.newtonpaiva.ui;
 
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -60,6 +67,11 @@ public class TelaVendas extends javax.swing.JDialog {
         txtCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCodigoFocusLost(evt);
+            }
+        });
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
             }
         });
 
@@ -245,44 +257,53 @@ public class TelaVendas extends javax.swing.JDialog {
 
     private void txtCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoFocusLost
         // TODO add your handling code here:
-        String codigo = txtCodigo.getText();
-        
-        if(codigo.equals("1000")) {
-            txtProduto.setText("Smatphone Xiaomi Mi 8");
-            txtValorUnitario.setText("1.029,00");
-            txtQuantidade.setText("1");
-            txtValorTotal.setText(txtValorUnitario.getText());
-        } else if(codigo.equals("2000")) {
-            txtProduto.setText("Capa Antishock");
-            txtValorUnitario.setText("100,00");
-            txtQuantidade.setText("1");
-            txtValorTotal.setText(txtValorUnitario.getText());
-        } else if(codigo.equals("3000")) {
-            txtProduto.setText("Pelicula Gel");
-            txtValorUnitario.setText("53,75");
-            txtQuantidade.setText("1");
-            txtValorTotal.setText(txtValorUnitario.getText());
-        } else {
-            JOptionPane.showMessageDialog(
-                    this, "Produto não encontrado!");
-        }
+//        String codigo = txtCodigo.getText();
+//        
+//        if(codigo.equals("1000")) {
+//            txtProduto.setText("Smatphone Xiaomi Mi 8");
+//            txtValorUnitario.setText("1.029,00");
+//            txtQuantidade.setText("1");
+//            txtValorTotal.setText(txtValorUnitario.getText());
+//        } else if(codigo.equals("2000")) {
+//            txtProduto.setText("Capa Antishock");
+//            txtValorUnitario.setText("100,00");
+//            txtQuantidade.setText("1");
+//            txtValorTotal.setText(txtValorUnitario.getText());
+//        } else if(codigo.equals("3000")) {
+//            txtProduto.setText("Pelicula Gel");
+//            txtValorUnitario.setText("53,75");
+//            txtQuantidade.setText("1");
+//            txtValorTotal.setText(txtValorUnitario.getText());
+//        } else {
+//            JOptionPane.showMessageDialog(
+//                    this, "Produto não encontrado!");
+//        }
     }//GEN-LAST:event_txtCodigoFocusLost
 
     private void txtQuantidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantidadeFocusLost
         // TODO add your handling code here:
-        String quantidadeStr = txtQuantidade.getText();
-        int quantidade = Integer.parseInt(quantidadeStr);
-        
-        // 1.028,57
-        // 1028.57
-        String valorStr = txtValorUnitario
-                            .getText()
-                            .replace(".", "")
-                            .replace(",", ".");
-        double valor = Double.parseDouble(valorStr);
-        
-        double total = quantidade * valor;
-        txtValorTotal.setText(String.format("%.2f", total));
+        try {
+            String quantidadeStr = txtQuantidade.getText();
+            int quantidade = Integer.parseInt(quantidadeStr);
+            String valorStr = txtValorUnitario
+                                .getText()
+                                .replace(".", "")
+                                .replace(",", ".");
+            double valor = Double.parseDouble(valorStr);
+
+            double total = quantidade * valor;
+            txtValorTotal.setText(String.format("%.2f", total));
+        } catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(
+                    this, 
+                    "Quantidade inválida. Motivo: " + e.getMessage()
+                     );
+        } catch(NullPointerException | ArrayIndexOutOfBoundsException e) {
+            
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(
+                    this, "Entre em contato com SD.");
+        }
         
     }//GEN-LAST:event_txtQuantidadeFocusLost
 
@@ -296,6 +317,36 @@ public class TelaVendas extends javax.swing.JDialog {
             model.removeRow(row[i]);
         }
     }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+        String codigo = txtCodigo.getText();
+        try {
+            Connection conn = DriverManager
+                            .getConnection(
+                               "jdbc:mysql://localhost:3306/pdv", 
+                               "root", 
+                               "");
+            PreparedStatement stm = 
+                    conn.prepareStatement(
+                        "SELECT * FROM tb_produto WHERE id_produto = ?");
+            stm.setInt(1, Integer.parseInt(codigo));
+            
+            ResultSet rs = stm.executeQuery();
+            
+            if(rs.next()) {
+                String nome = rs.getString("nom_produto");
+                Double valor = rs.getDouble("val_unitario");
+                
+                txtProduto.setText(nome);
+                txtValorUnitario.setText(String.format("%f", valor));
+                
+            }
+          
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_txtCodigoActionPerformed
 
     /**
      * @param args the command line arguments
