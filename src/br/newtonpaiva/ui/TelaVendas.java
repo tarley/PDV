@@ -7,6 +7,7 @@ package br.newtonpaiva.ui;
 
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -144,6 +145,11 @@ public class TelaVendas extends javax.swing.JDialog {
         btnLimpar.setText("LIMPAR");
 
         btnFinalizarVenda.setText("FINALIZAR VENDA");
+        btnFinalizarVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinalizarVendaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -347,6 +353,34 @@ public class TelaVendas extends javax.swing.JDialog {
             e.printStackTrace();
         }
     }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void btnFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarVendaActionPerformed
+        // TODO add your handling code here:
+        try {
+            
+            Connection conn = DriverManager
+                            .getConnection(
+                               "jdbc:mysql://localhost:3306/pdv", 
+                               "root", 
+                               "");
+            PreparedStatement stm = 
+                    conn.prepareStatement(
+                        "INSERT INTO tb_venda (data_criacao) VALUES (?)");
+            stm.setDate(1, new Date(System.currentTimeMillis()));
+            
+            int resultado = stm.executeUpdate();
+            
+            if(resultado > 0) {
+                JOptionPane.showMessageDialog(this, "Sucesso....");
+            }else {
+                JOptionPane.showMessageDialog(this, "Erro .....");
+            }
+            
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }      
+        
+    }//GEN-LAST:event_btnFinalizarVendaActionPerformed
 
     /**
      * @param args the command line arguments
