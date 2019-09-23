@@ -363,19 +363,28 @@ public class TelaVendas extends javax.swing.JDialog {
                                "jdbc:mysql://localhost:3306/pdv", 
                                "root", 
                                "");
+            
+            conn.setAutoCommit(false);
+            
             PreparedStatement stm = 
                     conn.prepareStatement(
-                        "INSERT INTO tb_venda (data_criacao) VALUES (?)");
+                        "INSERT INTO tb_venda (data_criacao) VALUES (?)",
+                        Statement.RETURN_GENERATED_KEYS);
             stm.setDate(1, new Date(System.currentTimeMillis()));
             
             int resultado = stm.executeUpdate();
             
             if(resultado > 0) {
-                JOptionPane.showMessageDialog(this, "Sucesso....");
+                ResultSet rs = stm.getGeneratedKeys();
+                rs.next();
+                conn.commit();
+                JOptionPane.showMessageDialog(this, 
+                        "Sucesso. ID_VENDA = " + rs.getInt(1));
+                
+                
             }else {
                 JOptionPane.showMessageDialog(this, "Erro .....");
             }
-            
         } catch(SQLException e) {
             e.printStackTrace();
         }      
